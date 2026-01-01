@@ -1,0 +1,11 @@
+# API 키가 포함된 파일
+*.env
+.env*
+*-api-key*
+
+# macOS
+.DS_Store
+
+# 임시 파일
+*.tmp
+*.bak
