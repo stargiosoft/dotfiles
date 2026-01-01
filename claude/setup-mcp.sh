@@ -1,11 +1,15 @@
 #!/bin/bash
-# Claude Code MCP Setup Script
+# Claude Code MCP & Plugin Setup Script
 #
 # 사용법:
 # 1. 환경 변수 설정: export FIRECRAWL_API_KEY="your-api-key"
 # 2. 스크립트 실행: ./setup-mcp.sh
 
-echo "Claude Code MCP 설정 중..."
+echo "========================================"
+echo "  Claude Code MCP & Plugin 설정"
+echo "========================================"
+echo ""
+echo "📦 MCP 서버 설치 중..."
 
 # Firecrawl MCP (API 키 필요)
 if [ -z "$FIRECRAWL_API_KEY" ]; then
@@ -25,4 +29,32 @@ echo "✓ Playwright MCP 설치됨"
 # echo "✓ Figma MCP 설치됨 (Figma 앱에서 MCP 서버 실행 필요)"
 
 echo ""
-echo "🎉 MCP 설정 완료! Claude Code를 재시작하세요."
+echo "🔌 플러그인 설치 중..."
+
+# Official 플러그인
+claude plugin install feature-dev@claude-plugins-official
+echo "✓ feature-dev 설치됨"
+
+claude plugin install supabase@claude-plugins-official
+echo "✓ supabase 설치됨"
+
+claude plugin install code-review@claude-plugins-official
+echo "✓ code-review 설치됨"
+
+claude plugin install pr-review-toolkit@claude-plugins-official
+echo "✓ pr-review-toolkit 설치됨"
+
+claude plugin install frontend-design@claude-plugins-official
+echo "✓ frontend-design 설치됨"
+
+claude plugin install typescript-lsp@claude-plugins-official
+echo "✓ typescript-lsp 설치됨"
+
+# Community 플러그인
+claude plugin install claude-mem@thedotmack
+echo "✓ claude-mem (메모리) 설치됨"
+
+echo ""
+echo "========================================"
+echo "🎉 설정 완료! Claude Code를 재시작하세요."
+echo "========================================"

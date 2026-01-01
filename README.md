@@ -27,6 +27,18 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | Firecrawl | 웹 스크래핑 | 필요 |
 | Playwright | 브라우저 자동화 | 불필요 |
 
+### 설치되는 플러그인
+
+| 플러그인 | 설명 |
+|---------|------|
+| feature-dev | 기능 개발 가이드 |
+| supabase | Supabase DB 관리 |
+| code-review | 코드 리뷰 |
+| pr-review-toolkit | PR 리뷰 도구 |
+| frontend-design | 프론트엔드 디자인 |
+| typescript-lsp | TypeScript LSP |
+| claude-mem | 영구 메모리 |
+
 ### API 키 발급
 
 - **Firecrawl**: https://www.firecrawl.dev/app/api-keys
