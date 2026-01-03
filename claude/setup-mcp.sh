@@ -24,6 +24,16 @@ fi
 claude mcp add playwright -s user -- npx -y @playwright/mcp@latest
 echo "✓ Playwright MCP 설치됨"
 
+# Supabase MCP (Access Token 필요)
+if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+    echo "⚠️  SUPABASE_ACCESS_TOKEN 환경 변수가 설정되지 않았습니다."
+    echo "   https://supabase.com/dashboard/account/tokens 에서 토큰 생성 후"
+    echo "   export SUPABASE_ACCESS_TOKEN='your-token' 로 설정하세요."
+else
+    claude mcp add supabase -s user -- npx -y @supabase/mcp-server-supabase@latest --access-token "$SUPABASE_ACCESS_TOKEN"
+    echo "✓ Supabase MCP 설치됨"
+fi
+
 # Figma MCP (로컬 서버 - Figma 앱에서 실행 필요)
 # claude mcp add figma -s local --type http --url http://127.0.0.1:3845/mcp
 # echo "✓ Figma MCP 설치됨 (Figma 앱에서 MCP 서버 실행 필요)"
