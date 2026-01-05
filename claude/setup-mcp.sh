@@ -54,6 +54,10 @@ fi
 echo ""
 echo "🔌 플러그인 설치 중..."
 
+# Community 마켓플레이스 추가
+claude plugin marketplace add thedotmack/claude-mem
+echo "✓ thedotmack/claude-mem 마켓플레이스 추가됨"
+
 # Official 플러그인
 claude plugin install feature-dev@claude-plugins-official
 echo "✓ feature-dev 설치됨"
@@ -72,6 +76,10 @@ echo "✓ frontend-design 설치됨"
 
 claude plugin install typescript-lsp@claude-plugins-official
 echo "✓ typescript-lsp 설치됨"
+
+# Community 플러그인 (thedotmack 마켓플레이스)
+claude plugin install claude-mem@thedotmack
+echo "✓ claude-mem (영속 메모리) 설치됨"
 
 echo ""
 echo "========================================"
