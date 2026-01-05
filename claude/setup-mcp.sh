@@ -2,7 +2,10 @@
 # Claude Code MCP & Plugin Setup Script
 #
 # 사용법:
-# 1. 환경 변수 설정: export FIRECRAWL_API_KEY="your-api-key"
+# 1. 환경 변수 설정:
+#    export FIRECRAWL_API_KEY="your-api-key"
+#    export SUPABASE_ACCESS_TOKEN="your-token"
+#    export TESTSPRITE_API_KEY="your-api-key"
 # 2. 스크립트 실행: ./setup-mcp.sh
 
 echo "========================================"
@@ -34,6 +37,16 @@ else
     echo "✓ Supabase MCP 설치됨"
 fi
 
+# TestSprite MCP (API 키 필요)
+if [ -z "$TESTSPRITE_API_KEY" ]; then
+    echo "⚠️  TESTSPRITE_API_KEY 환경 변수가 설정되지 않았습니다."
+    echo "   https://www.testsprite.com 에서 API 키 발급 후"
+    echo "   export TESTSPRITE_API_KEY='your-api-key' 로 설정하세요."
+else
+    claude mcp add testsprite -s user -- env API_KEY="$TESTSPRITE_API_KEY" npx -y @testsprite/testsprite-mcp@latest
+    echo "✓ TestSprite MCP 설치됨"
+fi
+
 # Figma MCP (로컬 서버 - Figma 앱에서 실행 필요)
 # claude mcp add figma -s local --type http --url http://127.0.0.1:3845/mcp
 # echo "✓ Figma MCP 설치됨 (Figma 앱에서 MCP 서버 실행 필요)"
@@ -59,10 +72,6 @@ echo "✓ frontend-design 설치됨"
 
 claude plugin install typescript-lsp@claude-plugins-official
 echo "✓ typescript-lsp 설치됨"
-
-# Community 플러그인
-claude plugin install claude-mem@thedotmack
-echo "✓ claude-mem (메모리) 설치됨"
 
 echo ""
 echo "========================================"

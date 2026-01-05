@@ -10,10 +10,12 @@
 
 ```bash
 # 1. 저장소 클론
-git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
+git clone https://github.com/stargiosoft/dotfiles.git ~/dotfiles
 
 # 2. 환경 변수 설정 (API 키가 필요한 MCP용)
 export FIRECRAWL_API_KEY="your-firecrawl-api-key"
+export SUPABASE_ACCESS_TOKEN="your-supabase-token"
+export TESTSPRITE_API_KEY="your-testsprite-api-key"
 
 # 3. 스크립트 실행
 chmod +x ~/dotfiles/claude/setup-mcp.sh
@@ -26,6 +28,8 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 |-----|------|--------|
 | Firecrawl | 웹 스크래핑 | 필요 |
 | Playwright | 브라우저 자동화 | 불필요 |
+| Supabase | DB 관리 | 필요 |
+| TestSprite | 자동 테스트/디버깅 | 필요 |
 
 ### 설치되는 플러그인
 
@@ -37,8 +41,9 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | pr-review-toolkit | PR 리뷰 도구 |
 | frontend-design | 프론트엔드 디자인 |
 | typescript-lsp | TypeScript LSP |
-| claude-mem | 영구 메모리 |
 
 ### API 키 발급
 
 - **Firecrawl**: https://www.firecrawl.dev/app/api-keys
+- **Supabase**: https://supabase.com/dashboard/account/tokens
+- **TestSprite**: https://www.testsprite.com
