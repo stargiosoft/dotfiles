@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git config:*)",
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(bun:*)",
+      "Bash(curl:*)",
+      "Bash(powershell:*)"
+    ]
+  },
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-figma"],
+      "env": {
+        "FIGMA_API_KEY": "YOUR_FIGMA_API_KEY_HERE"
+      }
+    }
+  }
+}

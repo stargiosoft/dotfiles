@@ -1,87 +1,106 @@
 #!/bin/bash
 # Claude Code MCP & Plugin Setup Script
 #
-# 사용법:
-# 1. 환경 변수 설정:
+# Usage:
+# 1. Set environment variables:
 #    export FIRECRAWL_API_KEY="your-api-key"
 #    export SUPABASE_ACCESS_TOKEN="your-token"
 #    export TESTSPRITE_API_KEY="your-api-key"
-# 2. 스크립트 실행: ./setup-mcp.sh
+#    export FIGMA_API_KEY="your-figma-api-key"
+# 2. Run script: ./setup-mcp.sh
 
 echo "========================================"
-echo "  Claude Code MCP & Plugin 설정"
+echo "  Claude Code MCP & Plugin Setup"
 echo "========================================"
 echo ""
-echo "📦 MCP 서버 설치 중..."
 
-# Firecrawl MCP (API 키 필요)
+# Check if claude command exists
+if ! command -v claude &> /dev/null; then
+    echo "ERROR: Claude Code CLI not found. Please install it first:"
+    echo "  npm install -g @anthropic-ai/claude-code"
+    exit 1
+fi
+
+echo "Installing MCP servers..."
+
+# Firecrawl MCP (API key required)
 if [ -z "$FIRECRAWL_API_KEY" ]; then
-    echo "⚠️  FIRECRAWL_API_KEY 환경 변수가 설정되지 않았습니다."
-    echo "   export FIRECRAWL_API_KEY='your-api-key' 로 설정 후 다시 실행하세요."
+    echo "WARNING: FIRECRAWL_API_KEY not set. Skipping Firecrawl MCP."
+    echo "  Set with: export FIRECRAWL_API_KEY='your-api-key'"
 else
     claude mcp add firecrawl -s user -- env FIRECRAWL_API_KEY="$FIRECRAWL_API_KEY" npx -y firecrawl-mcp
-    echo "✓ Firecrawl MCP 설치됨"
+    echo "OK Firecrawl MCP installed"
 fi
 
-# Playwright MCP (API 키 불필요)
+# Playwright MCP (no API key required)
 claude mcp add playwright -s user -- npx -y @playwright/mcp@latest
-echo "✓ Playwright MCP 설치됨"
+echo "OK Playwright MCP installed"
 
-# Supabase MCP (Access Token 필요)
+# Supabase MCP (Access Token required)
 if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
-    echo "⚠️  SUPABASE_ACCESS_TOKEN 환경 변수가 설정되지 않았습니다."
-    echo "   https://supabase.com/dashboard/account/tokens 에서 토큰 생성 후"
-    echo "   export SUPABASE_ACCESS_TOKEN='your-token' 로 설정하세요."
+    echo "WARNING: SUPABASE_ACCESS_TOKEN not set. Skipping Supabase MCP."
+    echo "  Get token: https://supabase.com/dashboard/account/tokens"
+    echo "  Set with: export SUPABASE_ACCESS_TOKEN='your-token'"
 else
     claude mcp add supabase -s user -- npx -y @supabase/mcp-server-supabase@latest --access-token "$SUPABASE_ACCESS_TOKEN"
-    echo "✓ Supabase MCP 설치됨"
+    echo "OK Supabase MCP installed"
 fi
 
-# TestSprite MCP (API 키 필요)
+# TestSprite MCP (API key required)
 if [ -z "$TESTSPRITE_API_KEY" ]; then
-    echo "⚠️  TESTSPRITE_API_KEY 환경 변수가 설정되지 않았습니다."
-    echo "   https://www.testsprite.com 에서 API 키 발급 후"
-    echo "   export TESTSPRITE_API_KEY='your-api-key' 로 설정하세요."
+    echo "WARNING: TESTSPRITE_API_KEY not set. Skipping TestSprite MCP."
+    echo "  Get key: https://www.testsprite.com"
+    echo "  Set with: export TESTSPRITE_API_KEY='your-api-key'"
 else
     claude mcp add testsprite -s user -- env API_KEY="$TESTSPRITE_API_KEY" npx -y @testsprite/testsprite-mcp@latest
-    echo "✓ TestSprite MCP 설치됨"
+    echo "OK TestSprite MCP installed"
 fi
 
-# Figma MCP (로컬 서버 - Figma 앱에서 실행 필요)
-# claude mcp add figma -s local --type http --url http://127.0.0.1:3845/mcp
-# echo "✓ Figma MCP 설치됨 (Figma 앱에서 MCP 서버 실행 필요)"
+# Figma MCP (API key required)
+if [ -z "$FIGMA_API_KEY" ]; then
+    echo "WARNING: FIGMA_API_KEY not set. Skipping Figma MCP."
+    echo "  Get key: Figma > Settings > Personal access tokens"
+    echo "  Set with: export FIGMA_API_KEY='your-api-key'"
+else
+    claude mcp add figma -s user -- env FIGMA_API_KEY="$FIGMA_API_KEY" npx -y @anthropic/mcp-server-figma
+    echo "OK Figma MCP installed"
+fi
 
 echo ""
-echo "🔌 플러그인 설치 중..."
+echo "Installing plugins..."
 
-# Community 마켓플레이스 추가
+# Add community marketplace
+echo "Adding thedotmack/claude-mem marketplace..."
 claude plugin marketplace add thedotmack/claude-mem
-echo "✓ thedotmack/claude-mem 마켓플레이스 추가됨"
+echo "OK thedotmack marketplace added"
 
-# Official 플러그인
-claude plugin install feature-dev@claude-plugins-official
-echo "✓ feature-dev 설치됨"
+# Official plugins
+for plugin in feature-dev supabase code-review pr-review-toolkit frontend-design typescript-lsp; do
+    echo "Installing $plugin..."
+    claude plugin install "$plugin@claude-plugins-official"
+    echo "OK $plugin installed"
+done
 
-claude plugin install supabase@claude-plugins-official
-echo "✓ supabase 설치됨"
-
-claude plugin install code-review@claude-plugins-official
-echo "✓ code-review 설치됨"
-
-claude plugin install pr-review-toolkit@claude-plugins-official
-echo "✓ pr-review-toolkit 설치됨"
-
-claude plugin install frontend-design@claude-plugins-official
-echo "✓ frontend-design 설치됨"
-
-claude plugin install typescript-lsp@claude-plugins-official
-echo "✓ typescript-lsp 설치됨"
-
-# Community 플러그인 (thedotmack 마켓플레이스)
+# Community plugins (thedotmack marketplace)
+echo "Installing claude-mem..."
 claude plugin install claude-mem@thedotmack
-echo "✓ claude-mem (영속 메모리) 설치됨"
+echo "OK claude-mem installed"
 
 echo ""
 echo "========================================"
-echo "🎉 설정 완료! Claude Code를 재시작하세요."
+echo "  Setup complete! Restart Claude Code."
 echo "========================================"
+echo ""
+
+# Install Bun for claude-mem worker
+echo "Installing Bun runtime for claude-mem..."
+if command -v bun &> /dev/null; then
+    echo "OK Bun already installed"
+else
+    curl -fsSL https://bun.sh/install | bash
+    echo "OK Bun installed"
+fi
+
+echo ""
+echo "To start claude-mem worker:"
+echo "  bun ~/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/worker-cli.js start"
