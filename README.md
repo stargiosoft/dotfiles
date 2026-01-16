@@ -125,6 +125,66 @@ dotfiles/
 └── README.md
 ```
 
+## Troubleshooting
+
+### Figma MCP Connection Issues
+
+**Problem**: Figma MCP fails to connect with errors like "No token data found" or "400 Bad Request"
+
+**Root Cause**:
+- Figma deprecated SSE (Server-Sent Events) transport in favor of HTTP
+- Old package `@anthropic/mcp-server-figma` (stdio/SSE) no longer works
+- Transport type must be explicitly set to `"http"`
+
+**Solution**: Use HTTP transport instead of stdio/SSE
+
+**Correct Configuration** (`~/.claude.json`):
+```json
+{
+  "mcpServers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {
+        "X-Figma-Token": "figd_xxx..."
+      }
+    }
+  }
+}
+```
+
+**❌ WRONG - Don't use these**:
+```json
+// ❌ Wrong: stdio transport with @anthropic/mcp-server-figma
+{
+  "figma": {
+    "command": "npx",
+    "args": ["-y", "@anthropic/mcp-server-figma"]
+  }
+}
+
+// ❌ Wrong: SSE transport (deprecated)
+{
+  "figma": {
+    "type": "sse",
+    "url": "https://mcp.figma.com/mcp"
+  }
+}
+```
+
+**Verification Steps**:
+1. Restart Claude Code after changing config
+2. Run `/mcp` command in Claude to verify connection
+3. You should see "Connected to figma"
+
+**API Key**: Get your Figma Personal Access Token from:
+- Figma Desktop App → Settings → Personal access tokens
+- Or: https://www.figma.com/developers/api#access-tokens
+
+**Reference**: [GitHub Issue #5125](https://github.com/anthropics/anthropic-quickstarts/issues/5125)
+
+---
+
 ## Manual Configuration
 
 If the setup script doesn't work, you can manually configure:
@@ -143,9 +203,22 @@ claude mcp add supabase -s user -- npx -y @supabase/mcp-server-supabase@latest -
 
 # TestSprite
 claude mcp add testsprite -s user -- npx -y @testsprite/testsprite-mcp@latest
+```
 
-# Figma
-claude mcp add figma -s user -- npx -y @anthropic/mcp-server-figma
+**Note**: Figma MCP cannot be added via CLI. You must manually edit `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {
+        "X-Figma-Token": "YOUR_FIGMA_API_KEY_HERE"
+      }
+    }
+  }
+}
 ```
 
 ### Install Plugins

@@ -18,10 +18,10 @@
       "args": ["-y", "@playwright/mcp@latest"]
     },
     "figma": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-server-figma"],
-      "env": {
-        "FIGMA_API_KEY": "YOUR_FIGMA_API_KEY_HERE"
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {
+        "X-Figma-Token": "YOUR_FIGMA_API_KEY_HERE"
       }
     }
   }
