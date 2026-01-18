@@ -10,11 +10,13 @@ Claude Code 환경 설정 파일 저장소
 # 1. Clone repository
 git clone https://github.com/stargiosoft/dotfiles.git $env:USERPROFILE\dotfiles
 
-# 2. Set API keys (get keys from links below)
+# 2. Set API keys (required MCP servers)
 $env:FIRECRAWL_API_KEY = "your-firecrawl-api-key"
 $env:SUPABASE_ACCESS_TOKEN = "your-supabase-token"
-$env:TESTSPRITE_API_KEY = "your-testsprite-api-key"
-$env:FIGMA_API_KEY = "your-figma-api-key"
+
+# Optional: Set if you need TestSprite or Figma
+# $env:TESTSPRITE_API_KEY = "your-testsprite-api-key"
+# $env:FIGMA_API_KEY = "your-figma-api-key"
 
 # 3. Run setup script
 & $env:USERPROFILE\dotfiles\claude\setup-mcp.ps1
@@ -26,41 +28,50 @@ $env:FIGMA_API_KEY = "your-figma-api-key"
 # 1. Clone repository
 git clone https://github.com/stargiosoft/dotfiles.git ~/dotfiles
 
-# 2. Set API keys (get keys from links below)
+# 2. Set API keys (required MCP servers)
 export FIRECRAWL_API_KEY="your-firecrawl-api-key"
 export SUPABASE_ACCESS_TOKEN="your-supabase-token"
-export TESTSPRITE_API_KEY="your-testsprite-api-key"
-export FIGMA_API_KEY="your-figma-api-key"
+
+# Optional: Set if you need TestSprite or Figma
+# export TESTSPRITE_API_KEY="your-testsprite-api-key"
+# export FIGMA_API_KEY="your-figma-api-key"
 
 # 3. Run setup script
 chmod +x ~/dotfiles/claude/setup-mcp.sh
 ~/dotfiles/claude/setup-mcp.sh
 ```
 
+**Note**:
+- **Required**: Firecrawl, Supabase (API keys needed)
+- **Always installed**: Playwright (no API key needed)
+- **Optional**: TestSprite, Figma (skip if API keys not set)
+
 ## Installed Components
 
 ### MCP Servers
 
-| MCP | Description | API Key | Requirements |
-|-----|-------------|---------|--------------|
-| Firecrawl | Web scraping & crawling | Required | - |
-| Playwright | Browser automation | Not required | - |
-| Supabase | Database management | Required | - |
-| TestSprite | Auto testing & debugging | Required | - |
-| Figma | Design to code | Required | - |
+| MCP | Description | API Key | Status |
+|-----|-------------|---------|--------|
+| **Firecrawl** | Web scraping & crawling | **Required** | ✅ Installed |
+| **Playwright** | Browser automation | Not required | ✅ Installed |
+| **Supabase** | Database management | **Required** | ✅ Installed |
+| TestSprite | Auto testing & debugging | Optional | ⚠️ Optional |
+| Figma | Design to code | Optional | ⚠️ Optional |
+
+**Note**: Serena plugin also provides its own MCP server for LSP operations.
 
 ### Plugins
 
-| Plugin | Description | Marketplace |
-|--------|-------------|-------------|
-| feature-dev | Feature development guide | official |
-| supabase | Supabase DB management | official |
-| code-review | Code review | official |
-| pr-review-toolkit | PR review tools | official |
-| frontend-design | Frontend design | official |
-| typescript-lsp | TypeScript LSP | official |
-| serena | LSP-based semantic code analysis (token optimization) | official |
-| claude-mem | Persistent memory system | thedotmack |
+| Plugin | Description | Marketplace | Status |
+|--------|-------------|-------------|--------|
+| **feature-dev** | Feature development guide | official | ✅ Enabled |
+| **supabase** | Supabase DB management | official | ✅ Enabled |
+| **code-review** | Code review | official | ✅ Enabled |
+| **pr-review-toolkit** | PR review tools | official | ✅ Enabled |
+| **frontend-design** | Frontend design | official | ✅ Enabled |
+| **typescript-lsp** | TypeScript LSP | official | ✅ Enabled |
+| **serena** | LSP-based semantic code analysis (token optimization) | official | ✅ Enabled |
+| claude-mem | Persistent memory system | thedotmack | ⚠️ Disabled by default |
 
 ## API Key Registration
 
@@ -71,9 +82,31 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | TestSprite | https://www.testsprite.com |
 | Figma | Figma App > Settings > Personal access tokens |
 
+## Currently Installed Setup
+
+Based on the default configuration with required API keys only:
+
+**MCP Servers (3 active):**
+- ✅ Firecrawl - Web scraping with API
+- ✅ Playwright - Browser automation
+- ✅ Supabase - Database operations
+- ⚠️ Serena MCP - Provided by serena plugin
+
+**Plugins (8 enabled):**
+- ✅ feature-dev - Guided development
+- ✅ supabase - DB integration
+- ✅ code-review - Code review
+- ✅ pr-review-toolkit - PR analysis
+- ✅ frontend-design - UI design
+- ✅ typescript-lsp - TS language server
+- ✅ serena - Token-efficient code operations
+- ⚠️ claude-mem - Installed but disabled
+
 ## claude-mem Plugin
 
 Persistent memory system that auto-saves/injects context across sessions.
+
+**Note**: claude-mem is installed but **disabled by default**. Enable it per project if needed.
 
 ### Features
 
