@@ -41,13 +41,14 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 
 ### MCP Servers
 
-| MCP | Description | API Key |
-|-----|-------------|---------|
-| Firecrawl | Web scraping & crawling | Required |
-| Playwright | Browser automation | Not required |
-| Supabase | Database management | Required |
-| TestSprite | Auto testing & debugging | Required |
-| Figma | Design to code | Required |
+| MCP | Description | API Key | Requirements |
+|-----|-------------|---------|--------------|
+| Firecrawl | Web scraping & crawling | Required | - |
+| Playwright | Browser automation | Not required | - |
+| Supabase | Database management | Required | - |
+| TestSprite | Auto testing & debugging | Required | - |
+| Figma | Design to code | Required | - |
+| Serena | LSP-based semantic code analysis (token optimization) | Not required | uv runtime |
 
 ### Plugins
 
@@ -203,6 +204,9 @@ claude mcp add supabase -s user -- npx -y @supabase/mcp-server-supabase@latest -
 
 # TestSprite
 claude mcp add testsprite -s user -- npx -y @testsprite/testsprite-mcp@latest
+
+# Serena (requires uv)
+claude mcp add serena -s user -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant
 ```
 
 **Note**: Figma MCP cannot be added via CLI. You must manually edit `~/.claude.json`:
@@ -237,4 +241,52 @@ claude plugin install typescript-lsp@claude-plugins-official
 
 # Install community plugins
 claude plugin install claude-mem@thedotmack
+```
+
+## Serena MCP Configuration
+
+Serena uses LSP (Language Server Protocol) for symbol-level code operations, saving tokens.
+
+### Requirements
+
+Install uv runtime:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### Project Configuration
+
+Create `.serena/config.yaml` in your project:
+
+```yaml
+# Serena Configuration
+# LSP-based semantic code retrieval and editing
+
+# Project languages (auto-detected, but can be specified)
+# languages:
+#   - typescript
+#   - python
+
+# Exclude patterns
+exclude_patterns:
+  - node_modules/
+  - build/
+  - dist/
+  - .git/
+  - "*.log"
+```
+
+### Benefits
+
+- **Token Savings**: Uses symbol-level operations instead of reading entire files
+- **Precision**: Finds exact functions/classes using LSP, not string search
+- **IDE-like**: Provides "Go to Definition", "Find References" capabilities to LLMs
+
+Example:
+- Old: Read entire 500-line file → 500 lines in context
+- Serena: `find_symbol("createUser")` → Only 20 lines in context
+
+### More Info
+
+https://github.com/oraios/serena
 ```

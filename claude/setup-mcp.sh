@@ -66,6 +66,15 @@ else
     echo "OK Figma MCP installed"
 fi
 
+# Serena MCP - LSP-based token optimization (uv required)
+if command -v uv &> /dev/null; then
+    claude mcp add serena -s user -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant
+    echo "OK Serena MCP installed (requires .serena/config.yaml per project)"
+else
+    echo "WARNING: uv not installed. Skipping Serena MCP."
+    echo "  Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+fi
+
 echo ""
 echo "Installing plugins..."
 
