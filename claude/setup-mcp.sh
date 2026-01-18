@@ -66,14 +66,9 @@ else
     echo "OK Figma MCP installed"
 fi
 
-# Serena MCP - LSP-based token optimization (uv required)
-if command -v uv &> /dev/null; then
-    claude mcp add serena -s user -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant
-    echo "OK Serena MCP installed (requires .serena/config.yaml per project)"
-else
-    echo "WARNING: uv not installed. Skipping Serena MCP."
-    echo "  Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
-fi
+# Serena - LSP-based token optimization (installed as plugin, not MCP)
+# Note: Serena is installed as a plugin in the plugins section below
+# The plugin version is easier to manage and doesn't require uv installation
 
 echo ""
 echo "Installing plugins..."
@@ -84,7 +79,7 @@ claude plugin marketplace add thedotmack/claude-mem
 echo "OK thedotmack marketplace added"
 
 # Official plugins
-for plugin in feature-dev supabase code-review pr-review-toolkit frontend-design typescript-lsp; do
+for plugin in feature-dev supabase code-review pr-review-toolkit frontend-design typescript-lsp serena; do
     echo "Installing $plugin..."
     claude plugin install "$plugin@claude-plugins-official"
     echo "OK $plugin installed"

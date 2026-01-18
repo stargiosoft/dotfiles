@@ -48,7 +48,6 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | Supabase | Database management | Required | - |
 | TestSprite | Auto testing & debugging | Required | - |
 | Figma | Design to code | Required | - |
-| Serena | LSP-based semantic code analysis (token optimization) | Not required | uv runtime |
 
 ### Plugins
 
@@ -60,6 +59,7 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | pr-review-toolkit | PR review tools | official |
 | frontend-design | Frontend design | official |
 | typescript-lsp | TypeScript LSP | official |
+| serena | LSP-based semantic code analysis (token optimization) | official |
 | claude-mem | Persistent memory system | thedotmack |
 
 ## API Key Registration
@@ -204,9 +204,6 @@ claude mcp add supabase -s user -- npx -y @supabase/mcp-server-supabase@latest -
 
 # TestSprite
 claude mcp add testsprite -s user -- npx -y @testsprite/testsprite-mcp@latest
-
-# Serena (requires uv)
-claude mcp add serena -s user -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant
 ```
 
 **Note**: Figma MCP cannot be added via CLI. You must manually edit `~/.claude.json`:
@@ -238,21 +235,17 @@ claude plugin install code-review@claude-plugins-official
 claude plugin install pr-review-toolkit@claude-plugins-official
 claude plugin install frontend-design@claude-plugins-official
 claude plugin install typescript-lsp@claude-plugins-official
+claude plugin install serena@claude-plugins-official
 
 # Install community plugins
 claude plugin install claude-mem@thedotmack
 ```
 
-## Serena MCP Configuration
+## Serena Plugin Configuration
 
 Serena uses LSP (Language Server Protocol) for symbol-level code operations, saving tokens.
 
-### Requirements
-
-Install uv runtime:
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
+**Note**: Serena is installed as a **plugin** (not MCP) for easier management. No additional runtime required!
 
 ### Project Configuration
 
