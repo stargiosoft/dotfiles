@@ -65,6 +65,20 @@ if ([string]::IsNullOrEmpty($env:FIGMA_API_KEY)) {
     Write-Host "OK Figma MCP installed" -ForegroundColor Green
 }
 
+# Sentry MCP (HTTP-based, OAuth authentication)
+claude mcp add sentry -s user --transport http https://mcp.sentry.dev/mcp
+Write-Host "OK Sentry MCP installed (OAuth auth required on first use)" -ForegroundColor Green
+
+# Google Sheets MCP
+if ([string]::IsNullOrEmpty($env:GOOGLE_APPLICATION_CREDENTIALS)) {
+    Write-Host "WARNING: GOOGLE_APPLICATION_CREDENTIALS not set. Skipping Google Sheets MCP." -ForegroundColor Yellow
+    Write-Host "  Get credentials: https://console.cloud.google.com/apis/credentials"
+    Write-Host "  Set with: `$env:GOOGLE_APPLICATION_CREDENTIALS = 'path/to/credentials.json'"
+} else {
+    claude mcp add mcp-google-sheets -s user -- uvx mcp-google-sheets@latest
+    Write-Host "OK Google Sheets MCP installed" -ForegroundColor Green
+}
+
 Write-Host ""
 Write-Host "Installing plugins..." -ForegroundColor Cyan
 

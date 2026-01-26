@@ -55,8 +55,10 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 | **Firecrawl** | Web scraping & crawling | **Required** | ✅ Installed |
 | **Playwright** | Browser automation | Not required | ✅ Installed |
 | **Supabase** | Database management | **Required** | ✅ Installed |
+| **Sentry** | Error monitoring & AI analysis | OAuth | ✅ Installed |
 | TestSprite | Auto testing & debugging | Optional | ⚠️ Optional |
 | Figma | Design to code | Optional | ⚠️ Optional |
+| Google Sheets | Spreadsheet read/write | Service Account | ⚠️ Optional |
 
 **Note**: Serena plugin also provides its own MCP server for LSP operations.
 
@@ -79,17 +81,21 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 |---------|-----|
 | Firecrawl | https://www.firecrawl.dev/app/api-keys |
 | Supabase | https://supabase.com/dashboard/account/tokens |
+| Sentry | OAuth (auto-prompted on first use) |
 | TestSprite | https://www.testsprite.com |
 | Figma | Figma App > Settings > Personal access tokens |
+| Google Sheets | https://console.cloud.google.com/apis/credentials (Service Account JSON) |
 
 ## Currently Installed Setup
 
 Based on the default configuration with required API keys only:
 
-**MCP Servers (3 active):**
+**MCP Servers (4 active):**
 - ✅ Firecrawl - Web scraping with API
 - ✅ Playwright - Browser automation
 - ✅ Supabase - Database operations
+- ✅ Sentry - Error monitoring & AI root cause analysis
+- ⚠️ Google Sheets - Spreadsheet operations (optional)
 - ⚠️ Serena MCP - Provided by serena plugin
 
 **Plugins (8 enabled):**

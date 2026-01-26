@@ -66,6 +66,20 @@ else
     echo "OK Figma MCP installed"
 fi
 
+# Sentry MCP (HTTP-based, OAuth authentication)
+claude mcp add sentry -s user --transport http https://mcp.sentry.dev/mcp
+echo "OK Sentry MCP installed (OAuth auth required on first use)"
+
+# Google Sheets MCP (Service Account credentials required)
+if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
+    echo "WARNING: GOOGLE_APPLICATION_CREDENTIALS not set. Skipping Google Sheets MCP."
+    echo "  Get credentials: https://console.cloud.google.com/apis/credentials"
+    echo "  Set with: export GOOGLE_APPLICATION_CREDENTIALS='path/to/credentials.json'"
+else
+    claude mcp add mcp-google-sheets -s user -- uvx mcp-google-sheets@latest
+    echo "OK Google Sheets MCP installed"
+fi
+
 # Serena - LSP-based token optimization (installed as plugin, not MCP)
 # Note: Serena is installed as a plugin in the plugins section below
 # The plugin version is easier to manage and doesn't require uv installation
