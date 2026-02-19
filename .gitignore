@@ -9,3 +9,23 @@
 # 임시 파일
 *.tmp
 *.bak
+
+# Claude Code — 민감/기기별 파일
+claude/.credentials.json
+claude/settings.local.json
+claude/history.jsonl
+claude/stats-cache.json
+claude/cache/
+claude/backups/
+claude/debug/
+claude/file-history/
+claude/image-cache/
+claude/paste-cache/
+claude/plans/
+claude/session-env/
+claude/shell-snapshots/
+claude/statsig/
+claude/tasks/
+claude/telemetry/
+claude/todos/
+claude/projects/
