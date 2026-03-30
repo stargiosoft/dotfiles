@@ -61,8 +61,18 @@ chmod +x ~/dotfiles/claude/setup-mcp.sh
 ```
 dotfiles/
 ├── claude/
+│   ├── agents/                       # 글로벌 에이전트
+│   │   ├── content-planner.md
+│   │   ├── feature-planner.md
+│   │   └── growth-strategist.md
 │   ├── commands/                     # 커스텀 슬래시 커맨드
-│   │   └── thread.md                 # /thread — 스레드 바이럴 글 작성기
+│   │   ├── property.md
+│   │   └── thread.md
+│   ├── skills/                       # 커스텀 스킬
+│   │   ├── nadaunse-taste/
+│   │   ├── trend/
+│   │   ├── ui-ux-pro-max/
+│   │   └── vercel-react-best-practices/
 │   ├── knowledge/                    # AI 지식 베이스
 │   │   ├── 마케팅_용어.txt
 │   │   ├── 서비스_기획.txt
@@ -163,6 +173,29 @@ IT 기획자 페르소나로 스레드(Threads) 바이럴 글을 자동 생성.
 - 기기별 추가 bash 권한
 
 **주의:** API 키가 포함되므로 절대 git에 커밋하지 말 것.
+
+---
+
+## Agents (Global)
+
+All projects에서 사용 가능한 에이전트:
+
+| Agent | Description | Trigger Keywords |
+|-------|-------------|-----------------|
+| **content-planner** | 바이럴 콘텐츠(글/영상) 기획 — 감정 설계, 훅 카피, 본문 3단 구조, CTA | "콘텐츠 기획", "카피 써줘", "훅 만들어" |
+| **feature-planner** | 바이럴 기능/제품 설계 — 심리 트리거, 공유 루프, 케이스 스터디 매칭 | "기능 기획", "바이럴 기능", "공유 루프" |
+| **growth-strategist** | 사업 성장 전략 — 7대 본능 분석, 5단계 성장 엔진, 전환/잠금 설계 | "사업 전략", "성장 설계", "본능 분석" |
+
+---
+
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| **nadaunse-taste** | 나다운세 프론트엔드 디자인 품질 스킬 |
+| **trend** | 멀티 플랫폼 트렌드 서칭 |
+| **ui-ux-pro-max** | UI/UX 디자인 인텔리전스 (67 styles, 96 palettes) |
+| **vercel-react-best-practices** | React/Next.js 성능 최적화 가이드라인 |
 
 ---
 

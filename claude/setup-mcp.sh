@@ -120,5 +120,45 @@ else
 fi
 
 echo ""
+echo "Syncing agents, commands, and skills..."
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CLAUDE_DIR="$HOME/.claude"
+
+# Agents
+if [ -d "$SCRIPT_DIR/agents" ]; then
+    mkdir -p "$CLAUDE_DIR/agents"
+    cp "$SCRIPT_DIR/agents/"*.md "$CLAUDE_DIR/agents/" 2>/dev/null
+    echo "OK Agents synced: $(ls "$SCRIPT_DIR/agents/"*.md 2>/dev/null | wc -l) files"
+fi
+
+# Commands
+if [ -d "$SCRIPT_DIR/commands" ]; then
+    mkdir -p "$CLAUDE_DIR/commands"
+    cp "$SCRIPT_DIR/commands/"*.md "$CLAUDE_DIR/commands/" 2>/dev/null
+    echo "OK Commands synced: $(ls "$SCRIPT_DIR/commands/"*.md 2>/dev/null | wc -l) files"
+fi
+
+# Skills
+if [ -d "$SCRIPT_DIR/skills" ]; then
+    mkdir -p "$CLAUDE_DIR/skills"
+    for skill_dir in "$SCRIPT_DIR/skills"/*/; do
+        skill_name=$(basename "$skill_dir")
+        cp -r "$skill_dir" "$CLAUDE_DIR/skills/$skill_name"
+        echo "OK Skill synced: $skill_name"
+    done
+fi
+
+# Settings
+if [ -f "$SCRIPT_DIR/settings.json" ]; then
+    cp "$SCRIPT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
+    echo "OK settings.json synced"
+fi
+
+echo ""
+echo "========================================"
+echo "  Setup complete! Restart Claude Code."
+echo "========================================"
+echo ""
 echo "To start claude-mem worker:"
 echo "  bun ~/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/worker-cli.js start"
